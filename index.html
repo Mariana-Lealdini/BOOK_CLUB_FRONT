@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Book Lovers Club</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>The Book Lovers Club</h1>
+    </div>
+    <div class="banner">
+      <img src="img/logo.png" alt="The Book Lovers Club">
+    </div>
+  </header>
+
+  <!-- ===== TELA INICIAL ===== -->
+  <section id="screen-home" class="screen active">
+
+    <div class="home-top">
+
+      <!-- Livro do Mês -->
+      <div class="home-month">
+        <h2 class="home-section-title">Livro do Mês</h2>
+        <div class="month-preview" id="month-preview">
+          <div class="month-cover-wrap">
+            <img id="month-cover" src="" alt="Capa do livro">
+          </div>
+          <div class="month-info">
+            <p id="month-title-home" class="month-title-home">—</p>
+            <p id="month-author-home" class="month-author-home">—</p>
+            <p id="month-genre-home" class="month-genre-home">—</p>
+            <p id="month-recommended-home" class="month-recommended-home">—</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gênero Mais Lido -->
+      <div class="home-genre">
+        <h2 class="home-section-title">Gênero Mais Lido</h2>
+        <div class="genre-ranking" id="genre-ranking"></div>
+      </div>
+
+      <!-- Autor Mais Lido -->
+      <div class="home-author">
+        <h2 class="home-section-title">Autor Mais Lido</h2>
+        <div class="author-bubble-wrap">
+          <div class="author-bubble">
+            <span class="author-crown">👑</span>
+            <span class="author-name" id="home-author-name">—</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Balões de ação -->
+    <div class="home-actions">
+      <div class="action-bubble" onclick="openScreen('screen-books')">
+        <span class="action-icon">📁</span>
+        <span class="action-label">Lista de Livros Lidos</span>
+      </div>
+      <div class="action-bubble" onclick="openScreen('screen-books'); setTimeout(toggleAddForm, 200)">
+        <span class="action-icon">📖</span>
+        <span class="action-label">Adicione um Livro</span>
+      </div>
+      <div class="action-bubble" onclick="openRatingModal()">
+        <span class="action-icon">⭐</span>
+        <span class="action-label">Avalie um Livro</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== TELA: LIVROS LIDOS ===== -->
+  <section id="screen-books" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" onclick="openScreen('screen-home')">← Voltar</button>
+      <h2>Livros Lidos</h2>
+    </div>
+
+    <!-- Botões de ação -->
+    <div class="books-actions">
+      <button onclick="toggleAddForm()" class="btn-toggle-add" id="btn-toggle-add">
+        + Adicionar Livro
+      </button>
+      <button onclick="openRatingModal()" class="btn-rate">
+        ⭐ Avaliar Livro
+      </button>
+      <button onclick="openAllRatingsModal()" class="btn-all-ratings">
+         Ver Todas as Avaliações
+      </button>
+    </div>
+
+    <!-- Formulário de adição -->
+    <div class="add-form" id="add-form" style="display: none;">
+      <div class="add-form-fields">
+        <input type="text" id="input-title" placeholder="Título">
+        <input type="text" id="input-author" placeholder="Autor">
+        <input type="text" id="input-genre" placeholder="Gênero">
+        <input type="text" id="input-date" placeholder="Data (MM/AAAA)">
+        <select id="input-recommended">
+          <option value="">Indicado por...</option>
+        </select>
+      </div>
+      <div class="add-form-actions">
+        <button onclick="addBook()" class="btn-add">Adicionar</button>
+        <button onclick="cancelAdd()" class="btn-cancel">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filter-section">
+      <input type="text" id="filter-title" placeholder="Filtrar por título">
+      <input type="text" id="filter-author" placeholder="Filtrar por autor">
+      <input type="text" id="filter-genre" placeholder="Filtrar por gênero">
+      <input type="text" id="filter-recommended" placeholder="Filtrar por quem indicou">
+      <input type="text" id="filter-date" placeholder="Filtrar por data (MM/AAAA)">
+      <button onclick="filterBooks()" class="btn-filter">Filtrar</button>
+      <button onclick="clearFilter()" class="btn-clear">Limpar</button>
+    </div>
+
+    <!-- Tabela de livros -->
+    <div class="table-section">
+      <div class="table-wrap">
+        <table id="books-table">
+          <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Gênero</th>
+            <th>Data</th>
+            <th>Indicado por</th>
+            <th>⭐ Média</th>
+            <th>🗑</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MODAL: AVALIAR LIVRO ===== -->
+  <div id="modal-rating" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <button class="modal-close" onclick="closeRatingModal()">✕</button>
+      <h3>Avaliar Livro</h3>
+
+      <div class="modal-field">
+        <label for="rating-member">Quem está avaliando</label>
+        <select id="rating-member">
+          <option value="">Selecione seu nome...</option>
+        </select>
+      </div>
+
+      <div class="modal-field">
+        <label for="rating-book">Livro</label>
+        <select id="rating-book">
+          <option value="">Selecione o livro...</option>
+        </select>
+      </div>
+
+      <div class="modal-field">
+        <label for="star-selector">Nota</label>
+        <div class="star-selector" id="star-selector">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+        <input type="hidden" id="rating-stars" value="0">
+      </div>
+
+      <button onclick="submitRating()" class="btn-add" style="width:100%; margin-top:8px;">
+        Confirmar Avaliação
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ===== MODAL: AVALIAÇÕES POR LIVRO ===== -->
+  <div id="modal-book-ratings" class="modal-overlay" style="display:none;">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeBookRatingsModal()">✕</button>
+      <h3 id="book-ratings-title">Avaliações</h3>
+      <div id="book-ratings-list" class="ratings-list"></div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: TODAS AS AVALIAÇÕES ===== -->
+  <div id="modal-all-ratings" class="modal-overlay" style="display:none;">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeAllRatingsModal()">✕</button>
+      <h3>Todas as Avaliações</h3>
+      <div id="all-ratings-list" class="ratings-list"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
