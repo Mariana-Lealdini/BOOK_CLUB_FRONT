@@ -34,6 +34,9 @@ Não há dependências ou instalação necessária. Basta abrir o arquivo direta
 | Remover Livro | Remove livro diretamente pela tabela |
 | Filtrar Livros | Filtra por autor, gênero, quem indicou e/ou data |
 | Avaliar Livro | Registra avaliações de 1 a 5 estrelas |
+| Busca Membros | Dropdown list com os membros do clube na indicação e avaliação |
+| Lista Geral de Avaliações | Mostra todas avaliações já feitas de 1 a 5 estrelas |
+| Lista Avaliações por Livro | Mostra as avaliações do livro de 1 a 5 estrelas |
 
 ---
 
