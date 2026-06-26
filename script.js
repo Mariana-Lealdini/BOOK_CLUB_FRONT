@@ -230,10 +230,10 @@ const addBook = () => {
         DELETE /books/book — Deletar livro
   --------------------------------------------------------------------------------------
 */
-const deleteBook = (title, row) => {
-  if (!confirm(`Remover "${title}"?`)) return;
+const deleteBook = (title, author, row) => {
+  if (!confirm(`Remover "${title}" de ${author}?`)) return;
 
-  fetch(`${API}/book?title=${encodeURIComponent(title)}`, { method: 'delete' })
+  fetch(`${API}/book?title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}`, { method: 'delete' })
     .then(response => response.json())
     .then(() => {
       row.remove();
@@ -313,7 +313,7 @@ const openRatingModal = async () => {
       data.books.forEach(b => {
         const opt = document.createElement('option');
         opt.value = b.id;
-        opt.textContent = b.title;
+        opt.textContent = `${b.title} — ${b.author}`;
         sel.appendChild(opt);
       });
     });
@@ -391,7 +391,7 @@ const openAllRatingsModal = () => {
         const item = document.createElement('div');
         item.className = 'rating-item';
         item.innerHTML = `
-          <span class="rating-book-name">${r.book_title}</span>
+          <span class="rating-book-name">${r.book_title} — ${r.book_author}</span>
           <span class="rating-member-name">${r.member_name}</span>
           <span class="rating-stars">${renderStars(r.stars)}</span>
           <span class="rating-value">${r.stars}/5</span>
@@ -514,7 +514,7 @@ const insertRow = (id, title, author, genre, read_date, recommended_by, avg_star
   const btn = document.createElement('button');
   btn.textContent = '✕';
   btn.className   = 'btn-delete';
-  btn.onclick     = () => deleteBook(title, row);
+  btn.onclick     = () => deleteBook(title, author, row);
   deleteCell.appendChild(btn);
 };
 
